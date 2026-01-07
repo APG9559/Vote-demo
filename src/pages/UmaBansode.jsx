@@ -69,7 +69,7 @@ export default function UmaBansode() {
 
       {/* Notice */}
       <div className="text-center mt-2 p-2 rounded-md font-medium text-blue-900 bg-gradient-to-r from-orange-500 via-white to-green-500">
-        १५ जानेवारी, २०२६ रोजी ७:३० AM पासून सुरू
+        १५ जानेवारी, २०२६ रोजी सकाळी ७:३० पासून सुरू
       </div>
 
       {/* Table */}
