@@ -1,7 +1,6 @@
-
 import { X } from "lucide-react"; // optional icon lib
 import candidateImg from "../images/uma.jpg" // replace
-import symbolImg from "../images/INC_symbol.jpg"; // replace
+import symbolImg from "../images/INC_symbol.png"; // replace
 
 export default function VoteConfirmationModal({ onClose }) {
   return (
@@ -56,8 +55,8 @@ export default function VoteConfirmationModal({ onClose }) {
             />
           </div>
 
-          {/* Share Button
-          <button className="mt-6 w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold">
+          {/* Share Button */}
+          {/* <button className="mt-6 w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
               alt="whatsapp"

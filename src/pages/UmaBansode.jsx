@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import umaImage from "../images/uma.jpg";
 import INC_symbol from "../images/INC_symbol.png";
-import voteSound from "../assets/vote-sound.mp3";
+import voteSound from "../assets/UmaAudio.mp3";
 import VoteConfirmationModal from "./VoteConfirmationModal";
 
 const API_URL = "https://votedemo-backend.onrender.com";
@@ -57,6 +57,11 @@ export default function UmaBansode() {
       })
       .catch((err) => console.error("Vote error:", err))
       .finally(() => setLoading(false));
+
+    // Haptic feedback
+    if (navigator.vibrate) {
+      navigator.vibrate(400); // Vibrate for 400ms
+    }
   };
 
   return (
