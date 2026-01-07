@@ -2,7 +2,7 @@ import { X } from "lucide-react"; // optional icon lib
 import candidateImg from "../images/uma.jpg" // replace
 import symbolImg from "../images/INC_symbol.png"; // replace
 
-export default function VoteConfirmationModal({ onClose }) {
+export default function VoteConfirmationModal({ onClose }) { 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       {/* Modal */}

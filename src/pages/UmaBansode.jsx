@@ -48,31 +48,35 @@ export default function UmaBansode() {
       .then((res) => {
         setVotes(res.data.voteCount);
 
-        // 🔊 play sound
+        // 🔊 Play sound
         voteAudio.currentTime = 0;
         voteAudio.play();
 
-        // ✅ show popup
+        // 📳 Haptic feedback
+        if (navigator.vibrate) {
+          navigator.vibrate(400);
+        }
+
+        // ✅ Show popup
         setShowModal(true);
       })
       .catch((err) => console.error("Vote error:", err))
       .finally(() => setLoading(false));
-
-    // Haptic feedback
-    if (navigator.vibrate) {
-      navigator.vibrate(400); // Vibrate for 400ms
-    }
   };
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 p-2">
+      {/* 🔹 Background content (blurred when modal is open) */}
+      <div
+        className={`min-h-screen bg-gray-100 p-2 transition-all duration-300 ${
+          showModal ? "blur-sm pointer-events-none" : ""
+        }`}
+      >
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-600 via-white to-green-600 rounded-md p-4">
           <h1 className="text-lg font-semibold text-blue-900">
             कोल्हापूर महानगरपालिका सार्वत्रिक निवडणूक २०२५–२६
           </h1>
-          {/* <p className="text-sm mt-1 text-blue-900">१ विभाग • ७ उमेदवार</p> */}
         </div>
 
         {/* Notice */}
@@ -178,7 +182,7 @@ export default function UmaBansode() {
         </div>
       </div>
 
-      {/* ✅ Vote confirmation popup */}
+      {/* 🔹 Modal (never blurred) */}
       {showModal && (
         <VoteConfirmationModal onClose={() => setShowModal(false)} />
       )}
