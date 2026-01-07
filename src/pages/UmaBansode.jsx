@@ -62,7 +62,7 @@ export default function UmaBansode() {
         <h1 className="text-lg font-semibold text-blue-900">
           कोल्हापूर महानगरपालिका सार्वत्रिक निवडणूक २०२५–२६
         </h1>
-        <p className="text-sm mt-1 text-blue-900">१ विभाग • ७ उमेदवार</p>
+        {/* <p className="text-sm mt-1 text-blue-900">१ विभाग • ७ उमेदवार</p> */}
       </div>
 
       {/* Notice */}
