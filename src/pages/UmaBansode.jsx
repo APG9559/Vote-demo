@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import umaImage from "../images/uma.jpg";
 import INC_symbol from "../images/INC_symbol.png";
-import voteSound from "../assets/VoteAudio.mp4";
-
+// import voteSound from "../assets/VoteAudio.mp4";
+import voteUmaSound from "../assets/VoteUmaAudio.mp3";
 const API_URL = "https://votedemo-backend.onrender.com";
 
 const candidates = [
@@ -19,7 +19,7 @@ const candidates = [
   { id: 3, name: "" },
   { id: 4, name: "" },
 ];
-const voteAudio = new Audio(voteSound);
+const voteAudio = new Audio(voteUmaSound);
 
 export default function UmaBansode() {
   const [votes, setVotes] = useState(0);
