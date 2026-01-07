@@ -124,27 +124,29 @@ export default function UmaBansode() {
               )}
             </div>
 
-            <div className="col-span-2 p-4 flex justify-center">
-              {c.selected ? (
-                <button
-                  onClick={() => handleButtonClick(c.name)}
-                  disabled={pressedButtons.includes(c.name) || loading}
-                  className={`px-4 py-2 rounded-md shadow flex items-center gap-2 text-white
-                    ${
-                      pressedButtons.includes(c.name) || loading
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                >
-                  <span className="w-3 h-3 bg-red-500 rounded-full"></span>
-                  {pressedButtons.includes(c.name)
-                    ? "मत दिले"
-                    : "बटन दाबा"}
-                </button>
-              ) : (
-                <button className="w-10 h-10 bg-blue-300 rounded-md shadow"></button>
-              )}
-            </div>
+            <div className="col-span-2 p-2 flex justify-center overflow-hidden">
+  {c.selected ? (
+    <button
+      onClick={() => handleButtonClick(c.name)}
+      disabled={pressedButtons.includes(c.name) || loading}
+      className={`w-full max-w-[110px]
+        px-2 py-2 rounded-md shadow
+        flex items-center justify-center gap-1
+        text-white text-sm
+        ${
+          pressedButtons.includes(c.name) || loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700"
+        }`}
+    >
+      <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+      {pressedButtons.includes(c.name) ? "मत दिले" : "बटन दाबा"}
+    </button>
+  ) : (
+    <button className="w-8 h-8 bg-blue-300 rounded-md shadow"></button>
+  )}
+</div>
+
           </div>
         ))}
       </div>
