@@ -3,7 +3,8 @@ import axios from "axios";
 import umaImage from "../images/uma.jpg";
 import INC_symbol from "../images/INC_symbol.png";
 // import voteSound from "../assets/VoteAudio.mp4";
-import voteUmaSound from "../assets/VoteUmaAudio.mp3";
+import voteUmaSound from "../assets/UmaAudio.mp3";
+
 const API_URL = "https://votedemo-backend.onrender.com";
 
 const candidates = [
