@@ -6,7 +6,7 @@ export default function VoteConfirmationModal({ onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       {/* Modal */}
-      <div className="w-[90%] max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="w-[90%] max-w-xl bg-white rounded-2xl shadow-xl overflow-hidden">
         
         {/* Header */}
         <div className="relative bg-blue-600 text-white px-4 py-3 text-center font-semibold">
@@ -38,32 +38,44 @@ export default function VoteConfirmationModal({ onClose }) {
             {/* Info */}
             <div className="flex-1 text-left">
               <span className="inline-block mb-1 px-3 py-0.5 text-xs rounded-full bg-purple-100 text-purple-700">
-                नगरसेवक - प्रभाग ७ 
+                नगरसेवक - प्रभाग ७ ब सर्वसाधारण महिला
               </span>
+                <p className="text-sm text-blue-600 font-medium">अ. क्र. २ </p>
               <h3 className="font-bold text-lg text-gray-800">
-                सौ. उमा शिवानंद बनछोडे
+                 बनछोडे उमा शिवानंद 
               </h3>
               <p className="text-sm text-gray-600">भारतीय राष्ट्रीय कॉंग्रेस</p>
-              <p className="text-sm text-blue-600 font-medium">क्र. २ </p>
+             
             </div>
 
             {/* Symbol */}
             <img
               src={symbolImg}
               alt="symbol"
-              className="w-12 h-12 bg-white p-2 rounded-lg border"
+              className="w-18  h-18  bg-white p-2 rounded-lg border"
             />
           </div>
 
           {/* Share Button */}
-          {/* <button className="mt-6 w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold">
+          <button
+            className="mt-6 w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold"
+            onClick={() => {
+              const message = `मी उमेदवारास मतदान केले: \n\n` +
+                `नगरसेवक - प्रभाग ७ ब सर्वसाधारण महिला\n` +
+                `अ. क्र. २ \n` +
+                `बनछोडे उमा शिवानंद \n` +
+                `भारतीय राष्ट्रीय कॉंग्रेस`;
+              const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+              window.open(whatsappUrl, "_blank");
+            }}
+          >
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
               alt="whatsapp"
               className="w-5 h-5"
             />
             शेअर करा
-          </button> */}
+          </button>
         </div>
       </div>
     </div>
