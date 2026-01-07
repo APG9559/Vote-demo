@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import umaImage from "../images/uma.jpg";
 import INC_symbol from "../images/INC_symbol.png";
+import voteSound from "../assets/VoteAudio.mp4";
+
+const API_URL = "https://votedemo-backend.onrender.com";
+
 const candidates = [
   { id: 1, name: "" },
   {
@@ -13,56 +18,65 @@ const candidates = [
   },
   { id: 3, name: "" },
   { id: 4, name: "" },
-
 ];
+const voteAudio = new Audio(voteSound);
 
 export default function UmaBansode() {
-  const [votes, setVotes] = useState(0); 
-  const [pressedButtons, setPressedButtons] = useState([]); // Track pressed buttons
+  const [votes, setVotes] = useState(0);
+  const [pressedButtons, setPressedButtons] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const incrementVotes = () => {
-    setVotes((prevVotes) => prevVotes + 1);
-    console.log("Something just happened");
-  };
+  /* Fetch vote count on page load */
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/votes`)
+      .then((res) => setVotes(res.data.voteCount))
+      .catch((err) => console.error(err));
+  }, []);
 
-  const handleButtonClick = (id) => {
-    if (!pressedButtons.includes(id)) {
-      setPressedButtons((prev) => [...prev, id]);
-      incrementVotes();
-      console.log("You won't get anything here");
-    }
-  };
+  /* Vote handler */
+  const handleButtonClick = (name) => {
+  if (pressedButtons.includes(name) || loading) return;
+
+  setLoading(true);
+  setPressedButtons((prev) => [...prev, name]);
+
+  axios
+    .post(`${API_URL}/vote`, { name })
+    .then((res) => {
+      setVotes(res.data.voteCount);
+
+      // 🔊 Play vote sound
+      voteAudio.currentTime = 0; // rewind if clicked fast
+      voteAudio.play();
+    })
+    .catch((err) => console.error("Vote error:", err))
+    .finally(() => setLoading(false));
+};
+
 
   return (
     <div className="min-h-screen bg-gray-100 p-2">
-      {/* Top Header */}
-      <div className="bg-linear-to-r 
-                from-orange-600 
-                via-white 
-                to-green-600 text-blue rounded-md p-4">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-orange-600 via-white to-green-600 rounded-md p-4">
         <h1 className="text-lg font-semibold text-blue-900">
           कोल्हापूर महानगरपालिका सार्वत्रिक निवडणूक २०२५–२६
         </h1>
-        <p className="text-sm mt-1  text-blue-900 ">१ विभाग • ७ उमेदवार</p>
+        <p className="text-sm mt-1 text-blue-900">१ विभाग • ७ उमेदवार</p>
       </div>
 
-      {/* Notice Bar */}
-     <div className="text-center mt-2 p-2 rounded-md font-medium  text-blue-900
-                bg-linear-to-r 
-                from-orange-500 
-                via-white 
-                to-green-500">
-  १५ जानेवारी, २०२६ रोजी ७:३० AM पासून सुरू
-</div>
+      {/* Notice */}
+      <div className="text-center mt-2 p-2 rounded-md font-medium text-blue-900 bg-gradient-to-r from-orange-500 via-white to-green-500">
+        १५ जानेवारी, २०२६ रोजी ७:३० AM पासून सुरू
+      </div>
 
-
-      {/* Table Card */}
+      {/* Table */}
       <div className="bg-white rounded-xl shadow mt-4 border">
         <div className="bg-blue-500 text-white text-center py-3 rounded-t-xl font-semibold">
-          नगरसेवक - प्रभाग ७ ब (सर्वसाधारण महिला )
+          नगरसेवक - प्रभाग ७ ब (सर्वसाधारण महिला)
         </div>
 
-        {/* Table Header */}
+        {/* Header row */}
         <div className="grid grid-cols-12 bg-blue-50 border-b text-sm font-semibold text-gray-700">
           <div className="col-span-1 p-3 text-center">क्र.</div>
           <div className="col-span-4 p-3">उमेदवाराचे नाव</div>
@@ -71,19 +85,21 @@ export default function UmaBansode() {
           <div className="col-span-2 p-3 text-center">मत</div>
         </div>
 
-        {/* Table Rows */}
+        {/* Rows */}
         {candidates.map((c) => (
           <div
             key={c.id}
-            className={`grid grid-cols-12 border-b items-center text-sm ${c.name ? 'bg-pink-300' : ''}`}
+            className={`grid grid-cols-12 border-b items-center text-sm ${
+              c.selected ? "bg-pink-300" : ""
+            }`}
           >
             <div className="col-span-1 p-4 text-center">{c.id}</div>
 
             <div className="col-span-4 p-4">
-              {c.name && (
+              {c.selected && (
                 <>
                   <p className="font-bold text-lg">{c.name}</p>
-                  <p className="text-medium text-gray-800">{c.party}</p>
+                  <p className="text-gray-800">{c.party}</p>
                 </>
               )}
             </div>
@@ -93,7 +109,7 @@ export default function UmaBansode() {
                 <img
                   src={c.photo}
                   alt="candidate"
-                  className="w-21 h-21 rounded-md border"
+                  className="w-20 h-20 border rounded-md"
                 />
               )}
             </div>
@@ -107,19 +123,23 @@ export default function UmaBansode() {
                 />
               )}
             </div>
-            
-             
 
             <div className="col-span-2 p-4 flex justify-center">
               {c.selected ? (
                 <button
-                  onClick={() => handleButtonClick(c.id)}
-                  disabled={pressedButtons.includes(c.id)}
+                  onClick={() => handleButtonClick(c.name)}
+                  disabled={pressedButtons.includes(c.name) || loading}
                   className={`px-4 py-2 rounded-md shadow flex items-center gap-2 text-white
-    ${pressedButtons.includes(c.id) ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
+                    ${
+                      pressedButtons.includes(c.name) || loading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700"
+                    }`}
                 >
                   <span className="w-3 h-3 bg-red-500 rounded-full"></span>
-                  {pressedButtons.includes(c.id) ? "मत दिले" : "बटन दाबा"}
+                  {pressedButtons.includes(c.name)
+                    ? "मत दिले"
+                    : "बटन दाबा"}
                 </button>
               ) : (
                 <button className="w-10 h-10 bg-blue-300 rounded-md shadow"></button>
@@ -130,19 +150,18 @@ export default function UmaBansode() {
       </div>
 
       {/* Footer */}
-      <div className="bg-gradient-to-r 
-                from-orange-500 
-                via-white 
-                to-green-500 text-white rounded-md mt-4 p-4 flex justify-between items-center">
-        <div className="flex items-center gap-2">
+      <div className="bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-md mt-4 p-4 flex justify-between items-center">
+        <div className="flex items-center gap-2 text-blue-900 font-medium">
           <span className="w-3 h-3 bg-green-400 rounded-full"></span>
           थेट मतदान
         </div>
 
-        <div className="text-lg font-semibold">
-          एकूण मते: <span className="ml-2 bg-blue-700 px-3 py-1 rounded">{votes}</span>
+        <div className="text-lg font-semibold text-blue-900">
+          एकूण मते:
+          <span className="ml-2 bg-blue-700 text-white px-3 py-1 rounded">
+            {votes}
+          </span>
         </div>
-
       </div>
     </div>
   );
