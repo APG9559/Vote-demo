@@ -4,7 +4,7 @@ import umaImage from "../images/uma.jpg";
 import INC_symbol from "../images/INC_symbol.png";
 // import voteSound from "../assets/VoteAudio.mp4";
 import voteUmaSound from "../assets/UmaAudio.mp3";
-
+import { Analytics } from "@vercel/analytics/react"
 const API_URL = "https://votedemo-backend.onrender.com";
 
 const candidates = [
@@ -58,6 +58,7 @@ export default function UmaBansode() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-2">
+      <Analytics/>
       {/* Header */}
       <div className="bg-gradient-to-r from-orange-600 via-white to-green-600 rounded-md p-4">
         <h1 className="text-lg font-semibold text-blue-900">
