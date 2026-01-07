@@ -11,7 +11,7 @@ function App() {
      <BrowserRouter>
    
         <Routes>
-          <Route path='/Uma-Bansode' element={<UmaBansode />} />
+          <Route path='/' element={<UmaBansode />} />
           
         </Routes>
     
