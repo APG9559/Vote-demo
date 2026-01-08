@@ -32,7 +32,9 @@ export default function UmaBansode() {
   useEffect(() => {
     axios
       .get(`${API_URL}/votes`)
-      .then((res) => setVotes(res.data.voteCount))
+      .then((res) => setVotes(res.data.voteCount),
+      console.log("I got it")
+    )
       .catch((err) => console.error(err));
   }, []);
 
@@ -47,7 +49,7 @@ export default function UmaBansode() {
       .post(`${API_URL}/vote`, { name })
       .then((res) => {
         setVotes(res.data.voteCount);
-
+        console.log("I sent it");
         // 🔊 Play sound
         voteAudio.currentTime = 0;
         voteAudio.play();
